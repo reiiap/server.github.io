@@ -20,17 +20,17 @@ export async function POST(request: Request) {
     const code = String(body.code ?? '').trim();
 
     if (username.length < 3 || code.length < 6) {
-      return NextResponse.json({ ok: false, error: 'Enter your Minecraft username and one-time server login code.' }, { status: 400 });
+      return NextResponse.json({ ok: false, error: 'Masukkan username Minecraft dan kode login sekali pakai dari server.' }, { status: 400 });
     }
 
     const player = await findLuckPermsPlayer(username);
     if (!player) {
-      return NextResponse.json({ ok: false, error: 'ACCESS DENIED: this username is not registered in the VoxenSMP database.' }, { status: 403 });
+      return NextResponse.json({ ok: false, error: 'AKSES DITOLAK: username ini belum terdaftar di database VoxenSMP.' }, { status: 403 });
     }
 
     const validCode = await consumeLoginCode(username, code);
     if (!validCode) {
-      return NextResponse.json({ ok: false, error: 'ACCESS DENIED: invalid or expired Minecraft verification code.' }, { status: 403 });
+      return NextResponse.json({ ok: false, error: 'AKSES DITOLAK: kode verifikasi Minecraft tidak valid atau sudah kedaluwarsa.' }, { status: 403 });
     }
 
     const [rank, stats] = await Promise.all([
@@ -60,8 +60,8 @@ export async function POST(request: Request) {
     return response;
   } catch (error) {
     const message = error instanceof Error && error.message.includes('MYSQL_DATABASE_URL')
-      ? 'Login database is not configured yet. Add MYSQL_DATABASE_URL and AUTH_SESSION_SECRET in Vercel.'
-      : 'Login service temporarily unavailable.';
+      ? 'Database login belum dikonfigurasi. Tambahkan MYSQL_DATABASE_URL dan AUTH_SESSION_SECRET di Vercel.'
+      : 'Layanan login sementara belum tersedia.';
     return NextResponse.json({ ok: false, error: message }, { status: 503 });
   }
 }

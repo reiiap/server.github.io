@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Toko VoxenSMP — Rank, Book & Skill',
-  description: 'Toko Minecraft RPG VoxenSMP berbahasa Indonesia untuk rank, book, contract, skill, balance, armor, dan item premium.',
+  title: 'VoxenSMP — Toko RPG Indonesia',
+  description: 'Toko Minecraft RPG VoxenSMP berbahasa Indonesia untuk rank, book, skill, balance, item, dan komunitas survival premium.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

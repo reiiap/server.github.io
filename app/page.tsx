@@ -6,8 +6,8 @@ import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { GlassCard } from '@/components/GlassCard';
 import { SectionHeader } from '@/components/SectionHeader';
-import { contacts, features, importantNotes, navLinks, server, staff, storeCategories, weapons } from '@/lib/data';
-import type { IconName, StoreItem } from '@/lib/data';
+import { contacts, discordUrl, features, navLinks, server, staff, storeCategories, storeNotes, weapons } from '@/lib/data';
+import type { IconName, TokoProduct } from '@/lib/data';
 
 type ServerStatus = {
   ok: boolean;
@@ -49,6 +49,22 @@ const minecraftUsernamePattern = /^[A-Za-z0-9_]{3,16}$/;
 
 function Icon({ name, className = '' }: { name: IconName; className?: string }) {
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d={iconPaths[name]} /></svg>;
+}
+
+function getRarityClass(rarity: string) {
+  const key = rarity.toLowerCase();
+  if (key.includes('darkness')) return 'text-red-100 border-red-300/25 bg-red-500/10 shadow-[0_0_26px_rgba(248,113,113,.16)]';
+  if (key.includes('mythic')) return 'text-fuchsia-100 border-fuchsia-300/25 bg-fuchsia-500/10 shadow-[0_0_26px_rgba(217,70,239,.16)]';
+  if (key.includes('superior') || key.includes('glory') || key.includes('divine')) return 'text-emerald-100 border-emerald-300/25 bg-emerald-500/10 shadow-[0_0_26px_rgba(52,211,153,.16)]';
+  if (key.includes('legend') || key.includes('premium')) return 'text-amber-100 border-amber-300/25 bg-amber-500/10 shadow-[0_0_26px_rgba(251,191,36,.16)]';
+  if (key.includes('epic')) return 'text-violet-100 border-violet-300/25 bg-violet-500/10 shadow-[0_0_26px_rgba(167,139,250,.16)]';
+  if (key.includes('rare')) return 'text-sky-100 border-sky-300/25 bg-sky-500/10 shadow-[0_0_26px_rgba(56,189,248,.16)]';
+  return 'text-stone-100 border-white/15 bg-white/10 shadow-[0_0_22px_rgba(255,255,255,.08)]';
+}
+
+function getContactUrl(productName?: string) {
+  const text = productName ? `Halo VoxenSMP, saya minat membeli ${productName}.` : 'Halo VoxenSMP, saya minat order di store.';
+  return `${contacts.owner.url}?text=${encodeURIComponent(text)}`;
 }
 
 function useServerStatus() {
@@ -98,7 +114,7 @@ function LoadingScreen() {
           ))}
           <motion.div className="relative z-10 flex flex-col items-center text-center" initial={{ scale: .92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: .7 }}>
             <motion.div animate={{ y: [0, -10, 0], filter: ['drop-shadow(0 0 18px rgba(251,191,36,.45))', 'drop-shadow(0 0 34px rgba(16,185,129,.55))', 'drop-shadow(0 0 18px rgba(251,191,36,.45))'] }} transition={{ duration: 2, repeat: Infinity }}>
-              <Image src="/brand/voxensmp-rpg-emblem.svg" alt="Logo VoxenSMP RPG" width={126} height={126} priority className="logo-glow" />
+              <Image src="/brand/voxensmp-rpg-emblem.svg" alt="Logo RPG VoxenSMP" width={124} height={124} priority />
             </motion.div>
             <p className="mt-7 text-xs font-black uppercase tracking-[0.48em] text-amber-200">Memuat Realm...</p>
             <div className="mt-5 h-1.5 w-72 overflow-hidden rounded-full bg-white/10">
@@ -132,7 +148,7 @@ function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 px-4 py-4">
       <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-[1.5rem] border border-amber-200/15 bg-black/40 px-4 py-3 shadow-2xl shadow-black/40 backdrop-blur-2xl lg:px-6">
         <a href="#home" className="group flex items-center gap-3">
-          <Image src="/brand/voxensmp-rpg-emblem.svg" alt="Logo VoxenSMP" width={48} height={48} className="logo-glow transition duration-300 group-hover:rotate-6 group-hover:scale-110" priority />
+          <Image src="/brand/voxensmp-rpg-emblem.svg" alt="Emblem RPG VoxenSMP" width={48} height={48} className="drop-shadow-[0_0_18px_rgba(251,191,36,.5)] transition duration-300 group-hover:rotate-6 group-hover:scale-110" priority />
           <span className="hidden text-lg font-black tracking-[0.22em] text-amber-100 sm:block">VOXEN<span className="text-emerald-300">SMP</span></span>
         </a>
         <div className="hidden items-center gap-1 lg:flex">
@@ -142,8 +158,8 @@ function Navbar() {
             </a>
           ))}
         </div>
-        <div className="hidden items-center gap-2 lg:flex">
-          <a href={server.discordUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-indigo-400/15 px-4 py-3 text-sm font-black text-indigo-100 transition hover:scale-105 hover:bg-indigo-400/25"><Icon name="discord" className="h-5 w-5" /> Discord</a>
+        <div className="hidden items-center gap-3 lg:flex">
+          <a href={discordUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl border border-indigo-300/20 bg-indigo-400/10 px-4 py-3 text-sm font-black text-indigo-100 transition hover:border-indigo-200/50 hover:bg-indigo-300/20"><Icon name="discord" className="h-4 w-4" /> Discord</a>
         </div>
         <button onClick={() => setOpen((value) => !value)} aria-label="Buka menu" className="rounded-2xl border border-white/10 bg-white/10 p-3 text-white lg:hidden"><Icon name={open ? 'x' : 'menu'} className="h-5 w-5" /></button>
       </nav>
@@ -151,7 +167,7 @@ function Navbar() {
         {open && (
           <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} className="mx-auto mt-3 max-w-7xl rounded-[1.5rem] border border-amber-200/15 bg-[#090706]/95 p-3 backdrop-blur-2xl lg:hidden">
             {navLinks.map((link) => <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="block rounded-2xl px-4 py-3 font-bold text-stone-200 hover:bg-white/10">{link.label}</a>)}
-            <a href={server.discordUrl} target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="mt-2 flex items-center gap-2 rounded-2xl bg-indigo-400/15 px-4 py-3 font-black text-indigo-100"><Icon name="discord" className="h-5 w-5" /> Discord</a>
+            <a href={discordUrl} target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="mt-2 flex items-center justify-center gap-2 rounded-2xl bg-indigo-400/15 px-4 py-3 font-black text-indigo-100"><Icon name="discord" className="h-5 w-5" /> Discord</a>
           </motion.div>
         )}
       </AnimatePresence>
@@ -171,10 +187,62 @@ function StatusCard({ compact = false }: { compact?: boolean }) {
       </div>
       <h3 className="mt-5 text-3xl font-black text-white">{loading ? 'Membuka Realm...' : online ? 'Server Online' : 'Server Offline'}</h3>
       <div className={`mt-5 grid gap-3 ${compact ? '' : 'sm:grid-cols-2'}`}>
-        <div className="rounded-2xl border border-white/10 bg-black/25 p-4"><p className="text-xs uppercase tracking-[0.24em] text-stone-500">Player</p><p className="mt-2 text-2xl font-black text-emerald-200">{loading ? '—' : `${status.playersOnline ?? 0}${status.playersMax ? `/${status.playersMax}` : ''}`}</p></div>
+        <div className="rounded-2xl border border-white/10 bg-black/25 p-4"><p className="text-xs uppercase tracking-[0.24em] text-stone-500">Pemain</p><p className="mt-2 text-2xl font-black text-emerald-200">{loading ? '—' : `${status.playersOnline ?? 0}${status.playersMax ? `/${status.playersMax}` : ''}`}</p></div>
         <div className="rounded-2xl border border-white/10 bg-black/25 p-4"><p className="text-xs uppercase tracking-[0.24em] text-stone-500">Versi</p><p className="mt-2 text-2xl font-black text-amber-100">{status.version ?? server.version}</p></div>
       </div>
-      {!compact && <p className="mt-5 text-sm leading-7 text-stone-400">{status.motd ?? status.error ?? 'Data live diperbarui otomatis setiap 60 detik.'}</p>}
+      {!compact && <p className="mt-5 text-sm leading-7 text-stone-400">{status.motd ?? status.error ?? 'Data live diperbarui setiap 60 detik.'}</p>}
+    </GlassCard>
+  );
+}
+
+
+function LoginPanel() {
+  const [username, setUsername] = useState('');
+  const [savedUsername, setSavedUsername] = useState('');
+  const cleanUsername = username.trim();
+  const validUsername = /^[A-Za-z0-9_]{3,16}$/.test(cleanUsername);
+  const previewName = cleanUsername || savedUsername || 'Steve';
+
+  useEffect(() => {
+    setSavedUsername(window.localStorage.getItem('voxensmp_username') ?? '');
+  }, []);
+
+  const login = () => {
+    if (!validUsername) return;
+    window.localStorage.setItem('voxensmp_username', cleanUsername);
+    setSavedUsername(cleanUsername);
+    setUsername('');
+  };
+
+  const logout = () => {
+    window.localStorage.removeItem('voxensmp_username');
+    setSavedUsername('');
+  };
+
+  return (
+    <GlassCard className="h-full">
+      <div className="flex items-center gap-3">
+        <div className="grid h-14 w-14 place-items-center overflow-hidden rounded-2xl border border-amber-200/20 bg-black/40 p-1 shadow-[0_0_24px_rgba(251,191,36,.14)]">
+          <img src={`https://mc-heads.net/avatar/${encodeURIComponent(previewName)}`} alt={`Avatar Minecraft ${previewName}`} className="h-full w-full rounded-xl object-cover [image-rendering:pixelated]" />
+        </div>
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-amber-200">Login Minecraft</p>
+          <h3 className="text-2xl font-black text-white">{savedUsername ? `Halo, ${savedUsername}` : 'Masuk ke Toko'}</h3>
+        </div>
+      </div>
+      <p className="mt-5 text-sm leading-7 text-stone-400">Masukkan username Minecraft untuk melihat avatar, menyimpan identitas pembeli, dan membuat order terasa lebih personal.</p>
+      {savedUsername ? (
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          <a href="#store" className="rounded-2xl bg-gradient-to-r from-amber-300 to-emerald-300 px-5 py-4 text-center font-black text-black transition hover:scale-[1.02]">Buka Toko</a>
+          <button onClick={logout} className="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 font-black text-white transition hover:border-red-300/40 hover:bg-red-500/10">Keluar</button>
+        </div>
+      ) : (
+        <div className="mt-6 space-y-3">
+          <input value={username} onChange={(event) => setUsername(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') login(); }} placeholder="Username Minecraft" className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 font-bold text-white outline-none transition placeholder:text-stone-600 focus:border-amber-200/60 focus:ring-4 focus:ring-amber-200/10" />
+          <button onClick={login} disabled={!validUsername} className="w-full rounded-2xl bg-white px-5 py-4 font-black text-black transition hover:scale-[1.02] hover:bg-amber-200 disabled:cursor-not-allowed disabled:opacity-45">Login</button>
+          <p className={`text-xs font-bold ${cleanUsername && !validUsername ? 'text-red-200' : 'text-stone-500'}`}>Username 3-16 karakter, huruf, angka, atau underscore.</p>
+        </div>
+      )}
     </GlassCard>
   );
 }
@@ -201,26 +269,27 @@ function Hero() {
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_.95fr]">
         <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-          <motion.div variants={reveal} className="inline-flex items-center gap-3 rounded-full border border-amber-200/20 bg-amber-200/10 px-4 py-2 text-xs font-black uppercase tracking-[0.32em] text-amber-100"><Icon name="flame" className="h-4 w-4" /> Toko Minecraft RPG</motion.div>
-          <motion.div variants={reveal} className="mt-7 flex items-center gap-4"><Image src="/brand/voxensmp-rpg-emblem.svg" alt="Logo VOXEN SMP" width={96} height={96} priority className="logo-glow" /><div className="h-px flex-1 bg-gradient-to-r from-amber-200/80 to-transparent" /></motion.div>
-          <motion.h1 variants={reveal} className="fantasy-title mt-6 max-w-5xl text-5xl font-black leading-[.88] tracking-[-0.075em] text-white sm:text-6xl md:text-7xl xl:text-8xl">{server.title} <span className="block bg-gradient-to-r from-amber-100 via-red-200 to-emerald-200 bg-clip-text text-transparent">{server.subtitle}</span></motion.h1>
-          <motion.p variants={reveal} className="mt-7 text-2xl font-semibold text-amber-100 md:text-3xl">Setiap gear punya cerita. Setiap season punya legenda.</motion.p>
-          <motion.p variants={reveal} className="mt-4 max-w-2xl text-base leading-8 text-stone-400 md:text-lg">Masuk ke realm survival RPG dengan rank premium, book & contract, skill kustom, armor langka, dan progres kompetitif untuk Minecraft {server.version}.</motion.p>
+          <motion.div variants={reveal} className="inline-flex items-center gap-3 rounded-full border border-amber-200/20 bg-amber-200/10 px-4 py-2 text-xs font-black uppercase tracking-[0.32em] text-amber-100"><Icon name="flame" className="h-4 w-4" /> Server Minecraft</motion.div>
+          <motion.div variants={reveal} className="mt-7 flex items-center gap-4"><Image src="/brand/voxensmp-rpg-emblem.svg" alt="Logo VoxenSMP Legends RPG" width={96} height={96} priority className="drop-shadow-[0_0_28px_rgba(251,191,36,.4)]" /><div className="h-px flex-1 bg-gradient-to-r from-amber-200/80 to-transparent" /></motion.div>
+          <motion.h1 variants={reveal} className="fantasy-title mt-6 max-w-5xl text-5xl font-black leading-[.88] tracking-[-0.075em] text-white sm:text-6xl md:text-7xl xl:text-8xl">VOXEN SMP <span className="block bg-gradient-to-r from-amber-100 via-red-200 to-emerald-200 bg-clip-text text-transparent">RANK - BOOK - SKILL</span></motion.h1>
+          <motion.p variants={reveal} className="mt-7 text-2xl font-semibold text-amber-100 md:text-3xl">Realm premium untuk petualangan Minecraft RPG kamu.</motion.p>
+          <motion.p variants={reveal} className="mt-4 max-w-2xl text-base leading-8 text-stone-400 md:text-lg">Masuki realm obsidian berisi rank eksklusif, book contract, skill custom, item langka, dan progres survival kompetitif untuk Minecraft {server.version}.</motion.p>
           <motion.div variants={reveal} className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <a href="#store" className="rounded-2xl bg-gradient-to-r from-amber-300 via-yellow-200 to-emerald-300 px-8 py-4 text-center font-black text-black shadow-xl shadow-amber-950/40 transition hover:scale-105">Lihat Toko</a>
-            <a href={server.discordUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/10 px-8 py-4 text-center font-black text-white backdrop-blur-xl transition hover:border-indigo-300/50 hover:bg-indigo-300/10"><Icon name="discord" className="h-5 w-5" /> Gabung Discord</a>
+            <a href="#features" className="rounded-2xl bg-gradient-to-r from-amber-300 via-yellow-200 to-emerald-300 px-8 py-4 text-center font-black text-black shadow-xl shadow-amber-950/40 transition hover:scale-105">MULAI MAIN</a>
+            <a href="#discord" className="rounded-2xl border border-white/10 bg-white/10 px-8 py-4 text-center font-black text-white backdrop-blur-xl transition hover:border-emerald-300/50 hover:bg-emerald-300/10">GABUNG DISCORD</a>
           </motion.div>
           <motion.button variants={reveal} onClick={copyIp} className="glow-border relative mt-5 flex w-full max-w-md items-center justify-between rounded-2xl bg-black/45 px-5 py-4 text-left backdrop-blur-xl transition hover:scale-[1.02]">
             <span><span className="block text-xs font-black uppercase tracking-[0.28em] text-stone-500">Salin IP Server</span><span className="text-2xl font-black text-white">{server.ip}</span></span>
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-amber-200 text-black"><Icon name={copied ? 'check' : 'copy'} className="h-5 w-5" /></span>
           </motion.button>
         </motion.div>
-        <motion.div initial={{ opacity: 0, scale: .94, y: 28 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: .8, delay: .25 }} className="relative">
+        <motion.div initial={{ opacity: 0, scale: .94, y: 28 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: .8, delay: .25 }} className="relative grid gap-5">
           <div className="absolute -inset-7 rounded-[3rem] bg-gradient-to-br from-amber-300/20 via-red-700/20 to-emerald-400/10 blur-3xl" />
+          <LoginPanel />
           <StatusCard />
         </motion.div>
       </div>
-      <a href="#features" aria-label="Scroll ke fitur" className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-xs font-black uppercase tracking-[0.3em] text-amber-100/70 md:flex">Scroll <span className="h-10 w-px overflow-hidden bg-white/10"><span className="scroll-line block h-4 w-px bg-amber-200" /></span></a>
+      <a href="#features" aria-label="Gulir ke fitur" className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-xs font-black uppercase tracking-[0.3em] text-amber-100/70 md:flex">Gulir <span className="h-10 w-px overflow-hidden bg-white/10"><span className="scroll-line block h-4 w-px bg-amber-200" /></span></a>
     </section>
   );
 }
@@ -229,7 +298,7 @@ function Features() {
   return (
     <section id="features" className="px-5 py-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionHeader eyebrow="Sistem Utama" title="Survival realm yang terasa seperti RPG." copy="Senjata legends, skill kustom, boss dungeon, contract, dan progres PvP memberi setiap player jalur untuk dikenal." />
+        <SectionHeader eyebrow="Sistem Utama" title="Survival realm yang terasa seperti RPG." copy="Senjata legenda, skill custom, boss dungeon, contract, dan progres PvP memberi setiap pemain jalan untuk dikenal di realm." />
         <div className="grid auto-rows-fr gap-5 md:grid-cols-2 xl:grid-cols-3">
           {features.map((feature, index) => (
             <motion.div key={feature.title} initial="hidden" whileInView="visible" viewport={{ once: true, amount: .25 }} variants={reveal} transition={{ duration: .55, delay: (index % 3) * .06 }}>
@@ -254,7 +323,7 @@ function WeaponShowcase() {
     <section id="weapons" className="relative overflow-hidden px-5 py-24 lg:px-8">
       <div className="absolute inset-x-0 top-1/2 h-96 -translate-y-1/2 bg-[radial-gradient(circle_at_center,rgba(214,161,58,.10),transparent_42rem)]" />
       <div className="relative mx-auto max-w-7xl">
-        <SectionHeader eyebrow="Gear RPG" title="Item langka harus terasa kuat." copy="Kartu sinematik untuk weapon mythic, relic divine, contract legendary, dan skill ascended." />
+        <SectionHeader eyebrow="Showcase Relik" title="Gear langka harus terasa kuat." copy="Kartu sinematik untuk mythic weapon, divine relic, legendary contract, dan skill ascended yang memberi nuansa premium." />
         <div className="grid gap-6 lg:grid-cols-4">
           {weapons.map((weapon) => (
             <GlassCard key={weapon.name} className="min-h-[25rem]">
@@ -275,7 +344,7 @@ function Staff() {
   return (
     <section id="staff" className="px-5 py-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionHeader eyebrow="Tim VoxenSMP" title="Dewan resmi penjaga realm." copy="Roster admin dengan avatar Minecraft untuk member aktif dan kartu kosong yang rapi untuk posisi terbuka." />
+        <SectionHeader eyebrow="Tim VoxenSMP" title="Dewan resmi penjaga realm." copy="Roster admin dengan avatar Minecraft untuk anggota aktif serta kartu kosong yang bersih untuk role yang tersedia." />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {staff.map((member) => (
             <GlassCard key={`${member.role}-${member.username ?? 'kosong'}`} className={`text-center ${member.username ? '' : 'opacity-80'}`}>
@@ -298,119 +367,61 @@ function Staff() {
   );
 }
 
-function LoginPanel() {
-  const [username, setUsername] = useState('');
-  const [savedUsername, setSavedUsername] = useState<string | null>(null);
-  const trimmed = username.trim();
-  const hasInput = trimmed.length > 0;
-  const valid = !hasInput || minecraftUsernamePattern.test(trimmed);
-  const previewName = valid && hasInput ? trimmed : savedUsername;
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem('voxensmp_username');
-    if (stored) {
-      setSavedUsername(stored);
-      setUsername(stored);
-    }
-  }, []);
-
-  const login = () => {
-    if (!minecraftUsernamePattern.test(trimmed)) return;
-    window.localStorage.setItem('voxensmp_username', trimmed);
-    setSavedUsername(trimmed);
-  };
-
-  const logout = () => {
-    window.localStorage.removeItem('voxensmp_username');
-    setSavedUsername(null);
-    setUsername('');
-  };
-
+function ProductCard({ product, icon }: { product: TokoProduct; icon: IconName }) {
   return (
-    <section id="login" className="px-5 py-24 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeader eyebrow="Login Player" title="Masuk dengan username Minecraft." copy="Cukup isi username, avatar akan muncul otomatis, lalu data login disimpan di browser kamu." />
-        <div className="grid gap-6 lg:grid-cols-[.9fr_1.1fr]">
-          <GlassCard>
-            <div className="flex items-center gap-4">
-              <div className="grid h-20 w-20 place-items-center overflow-hidden rounded-2xl border border-amber-200/20 bg-black/40 p-2">
-                {previewName ? <img src={`https://mc-heads.net/avatar/${previewName}`} alt={`Preview avatar ${previewName}`} className="h-full w-full rounded-xl object-cover" /> : <Icon name="staff" className="h-10 w-10 text-amber-100/70" />}
-              </div>
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-amber-200">Status Login</p>
-                <h3 className="mt-1 text-2xl font-black text-white">{savedUsername ? `Halo, ${savedUsername}` : 'Belum login'}</h3>
-              </div>
-            </div>
-            <label className="mt-8 block text-sm font-black uppercase tracking-[0.22em] text-stone-400" htmlFor="minecraft-username">Username Minecraft</label>
-            <input id="minecraft-username" value={username} onChange={(event) => setUsername(event.target.value)} placeholder="Contoh: Steve" className="mt-3 w-full rounded-2xl border border-white/10 bg-black/35 px-5 py-4 font-bold text-white outline-none transition placeholder:text-stone-600 focus:border-amber-200/50 focus:ring-4 focus:ring-amber-200/10" />
-            {!valid && <p className="mt-3 text-sm font-semibold text-red-200">Username harus 3-16 karakter, hanya huruf, angka, dan underscore.</p>}
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <button onClick={login} disabled={!minecraftUsernamePattern.test(trimmed)} className="rounded-2xl bg-gradient-to-r from-amber-300 to-emerald-300 px-6 py-4 font-black text-black transition enabled:hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40">Login</button>
-              {savedUsername && <button onClick={logout} className="rounded-2xl border border-white/10 bg-white/10 px-6 py-4 font-black text-white transition hover:bg-red-400/15">Logout</button>}
-            </div>
-          </GlassCard>
-          <GlassCard className="flex items-center">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.32em] text-emerald-200">Preview Avatar</p>
-              <h3 className="mt-3 text-4xl font-black text-white">{previewName ?? 'Ketik username untuk melihat head kamu.'}</h3>
-              <p className="mt-5 leading-8 text-stone-400">Login ini dibuat ringan untuk pengalaman store: username tersimpan di localStorage, avatar ditarik dari mc-heads.net, dan kamu bisa logout kapan saja.</p>
-            </div>
-          </GlassCard>
-        </div>
+    <GlassCard className={`h-full ${getRarityClass(product.rarity)}`}>
+      <div className="flex items-start justify-between gap-4">
+        <div className="grid h-14 w-14 place-items-center rounded-2xl border border-current/20 bg-black/25 text-current shadow-[0_0_24px_rgba(251,191,36,.12)]"><Icon name={icon} className="h-7 w-7" /></div>
+        <span className="rounded-full border border-red-300/25 bg-red-500/15 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-red-100">{product.badge}</span>
       </div>
-    </section>
+      <p className="mt-7 inline-flex rounded-full border border-current/20 px-3 py-1 text-xs font-black uppercase tracking-[0.3em] text-current">{product.rarity}</p>
+      <h3 className="mt-4 text-3xl font-black text-white">{product.name}</h3>
+      <div className="mt-4 flex items-end gap-3">
+        <p className="text-4xl font-black text-amber-100">{product.price}</p>
+        <p className="pb-1 text-lg font-black text-stone-500 line-through">{product.oldPrice}</p>
+      </div>
+      {product.perks && (
+        <ul className="mt-6 grid gap-2 text-sm font-semibold text-stone-300">
+          {product.perks.map((perk) => <li key={perk} className="flex items-center gap-2"><Icon name="check" className="h-4 w-4 text-emerald-200" />{perk}</li>)}
+        </ul>
+      )}
+      <a href={getContactUrl(product.name)} target="_blank" rel="noreferrer" className="mt-8 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-300 to-amber-200 px-5 py-4 font-black text-black shadow-xl shadow-black/30 transition hover:scale-[1.02]">
+        <Icon name="staff" className="h-5 w-5" /> Pesan lewat WhatsApp
+      </a>
+    </GlassCard>
   );
 }
 
-function rarityClass(rarity: string) {
-  const map: Record<string, string> = {
-    Common: 'text-stone-200 shadow-stone-300/20',
-    Uncommon: 'text-lime-200 shadow-lime-300/20',
-    Rare: 'text-sky-200 shadow-sky-300/25',
-    Epic: 'text-fuchsia-200 shadow-fuchsia-300/25',
-    Legendary: 'text-orange-200 shadow-orange-300/30',
-    Mythic: 'text-purple-200 shadow-purple-300/30',
-    Glory: 'text-amber-100 shadow-amber-300/35',
-    Superior: 'text-cyan-100 shadow-cyan-300/35',
-    Darkness: 'text-red-100 shadow-red-500/40',
-  };
-  return map[rarity] ?? 'text-amber-100 shadow-amber-300/25';
-}
-
-function whatsappLink(item: StoreItem) {
-  return `${contacts.owner.whatsapp}?text=${encodeURIComponent(`Halo Owner VoxenSMP, saya minat membeli ${item.name} seharga ${item.price}.`)}`;
-}
-
-function Store() {
+function Toko() {
   const [active, setActive] = useState(storeCategories[0].id);
   const category = storeCategories.find((item) => item.id === active) ?? storeCategories[0];
 
   return (
     <section id="store" className="px-5 py-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionHeader eyebrow="Toko VOXEN SMP" title="RANK - BOOK - SKILL" copy="Minat? Langsung hubungi Owner atau Admin. Semua produk disusun rapi agar mudah dipilih dari mobile maupun desktop." />
-        <div className="mb-8 grid gap-4 rounded-[2rem] border border-amber-200/15 bg-black/25 p-5 md:grid-cols-3">
-          {importantNotes.map((note) => <div key={note} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4"><Icon name="check" className="h-5 w-5 text-emerald-200" /><span className="font-bold text-stone-200">{note}</span></div>)}
+        <SectionHeader eyebrow="VOXEN SMP" title="RANK - BOOK - SKILL" copy="Minat? Langsung hubungi Owner atau Admin. Semua paket dibuat jelas, rapi, dan mudah dipilih seperti marketplace RPG premium." />
+        <div className="mb-8 grid gap-4 md:grid-cols-3">
+          <a href={contacts.owner.url} target="_blank" rel="noreferrer" className="rounded-[2rem] border border-emerald-300/20 bg-emerald-400/10 p-5 font-black text-emerald-100 transition hover:-translate-y-1 hover:bg-emerald-400/15">WhatsApp Owner<span className="mt-2 block text-sm font-semibold text-stone-400">Hubungi untuk pembelian dan konfirmasi.</span></a>
+          <a href={contacts.admin.url} target="_blank" rel="noreferrer" className="rounded-[2rem] border border-amber-300/20 bg-amber-400/10 p-5 font-black text-amber-100 transition hover:-translate-y-1 hover:bg-amber-400/15">WhatsApp Admin<span className="mt-2 block text-sm font-semibold text-stone-400">Bantuan order, bukti transaksi, dan info item.</span></a>
+          <a href={discordUrl} target="_blank" rel="noreferrer" className="rounded-[2rem] border border-indigo-300/20 bg-indigo-400/10 p-5 font-black text-indigo-100 transition hover:-translate-y-1 hover:bg-indigo-400/15">Gabung Komunitas<span className="mt-2 block text-sm font-semibold text-stone-400">Masuk Discord untuk update realm.</span></a>
         </div>
         <div className="grid gap-6 lg:grid-cols-[18rem_1fr]">
           <aside className="h-fit rounded-[2rem] border border-white/10 bg-white/[0.04] p-3 backdrop-blur-2xl lg:sticky lg:top-28">
             {storeCategories.map((item) => (
-              <button key={item.id} onClick={() => setActive(item.id)} className={`mb-2 flex w-full items-center gap-3 rounded-2xl px-4 py-4 text-left font-black transition ${active === item.id ? 'bg-amber-200 text-black shadow-[0_0_28px_rgba(251,191,36,.25)]' : 'text-stone-300 hover:bg-white/10 hover:text-white'}`}><Icon name={item.icon} className="h-5 w-5" />{item.label}</button>
+              <button key={item.id} onClick={() => setActive(item.id)} className={`mb-2 flex w-full items-center gap-3 rounded-2xl px-4 py-4 text-left font-black transition ${active === item.id ? 'bg-amber-200 text-black shadow-[0_0_26px_rgba(251,191,36,.22)]' : 'text-stone-300 hover:bg-white/10 hover:text-white'}`}><Icon name={item.icon} className="h-5 w-5" />{item.label}</button>
             ))}
-            <div className="mt-4 rounded-2xl border border-emerald-200/15 bg-emerald-300/10 p-4 text-sm leading-7 text-emerald-50">{category.note}</div>
+            <div className="mt-4 rounded-2xl border border-red-300/15 bg-red-500/10 p-4">
+              <p className="text-xs font-black uppercase tracking-[0.24em] text-red-100">Catatan Penting</p>
+              <ul className="mt-3 space-y-2 text-sm font-semibold text-stone-300">
+                {storeNotes.map((note) => <li key={note}>• {note}</li>)}
+              </ul>
+            </div>
           </aside>
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {category.items.map((item) => (
-              <GlassCard key={item.name} className="premium-card">
-                <div className="flex items-start justify-between gap-4"><Icon name={category.icon} className="h-12 w-12 text-amber-200" /><span className="rounded-full bg-red-500/20 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-red-100">{item.badge}</span></div>
-                <p className={`mt-7 text-xs font-black uppercase tracking-[0.32em] drop-shadow-[0_0_12px_currentColor] ${rarityClass(item.rarity)}`}>{item.rarity}</p>
-                <h3 className="mt-2 text-2xl font-black text-white">{item.name}</h3>
-                <p className="mt-3 min-h-14 leading-7 text-stone-400">{item.description}</p>
-                <div className="mt-5 flex items-end gap-3"><p className="text-4xl font-black text-amber-100">{item.price}</p><p className="pb-1 text-lg font-bold text-stone-500 line-through">{item.originalPrice}</p></div>
-                {item.perks && <ul className="mt-5 grid gap-2 text-sm text-stone-300">{item.perks.map((perk) => <li key={perk} className="flex items-center gap-2"><Icon name="check" className="h-4 w-4 text-emerald-200" />{perk}</li>)}</ul>}
-                <a href={whatsappLink(item)} target="_blank" rel="noreferrer" className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-300 to-amber-200 py-4 font-black text-black transition hover:scale-[1.02]">Beli via WhatsApp <Icon name="chevron" className="h-5 w-5" /></a>
-              </GlassCard>
-            ))}
+          <div>
+            {category.info && <p className="mb-5 rounded-2xl border border-amber-200/15 bg-amber-200/10 p-4 text-sm font-bold leading-7 text-amber-100">Info: {category.info}</p>}
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {category.items.map((item) => <ProductCard key={item.name} product={item} icon={category.icon} />)}
+            </div>
           </div>
         </div>
       </div>
@@ -422,33 +433,16 @@ function ContactSection() {
   return (
     <section id="contact" className="px-5 py-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionHeader eyebrow="Hubungi Kami" title="Minat? Langsung hubungi:" copy="Owner dan Admin siap membantu pembelian rank, book, skill, balance, serta item permanent." />
+        <SectionHeader eyebrow="Kontak Resmi" title="Hubungi Kami" copy="Butuh bantuan order, tanya paket, atau konfirmasi bukti transaksi? Tim VoxenSMP siap membantu lewat WhatsApp." />
         <div className="grid gap-5 md:grid-cols-2">
           {Object.values(contacts).map((contact) => (
-            <GlassCard key={contact.label}>
-              <p className="text-xs font-black uppercase tracking-[0.32em] text-amber-200">{contact.label}</p>
-              <h3 className="mt-3 text-3xl font-black text-white">WhatsApp {contact.label}</h3>
-              <p className="mt-4 leading-8 text-stone-400">Klik tombol di bawah untuk chat langsung dan simpan bukti transaksi setelah pembayaran.</p>
-              <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-6 py-4 font-black text-black transition hover:scale-105 hover:bg-amber-200">Chat {contact.label}</a>
+            <GlassCard key={contact.label} className="h-full">
+              <Icon name="staff" className="h-12 w-12 text-amber-200" />
+              <h3 className="mt-6 text-3xl font-black text-white">{contact.label}</h3>
+              <p className="mt-3 leading-7 text-stone-400">Klik tombol di bawah untuk menghubungi {contact.name} via WhatsApp.</p>
+              <a href={contact.url} target="_blank" rel="noreferrer" className="mt-7 inline-flex rounded-2xl bg-emerald-300 px-6 py-4 font-black text-black transition hover:scale-[1.03]">Chat WhatsApp</a>
             </GlassCard>
           ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function CommunityCta() {
-  return (
-    <section id="community" className="px-5 py-20 lg:px-8">
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] border border-indigo-200/15 bg-indigo-500/10 p-8 backdrop-blur-2xl md:p-12">
-        <div className="grid items-center gap-8 md:grid-cols-[1.3fr_.7fr]">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.34em] text-indigo-100">Gabung Komunitas</p>
-            <h2 className="mt-4 text-4xl font-black text-white md:text-6xl">Masuk Discord VoxenSMP.</h2>
-            <p className="mt-5 max-w-3xl leading-8 text-stone-300">Dapatkan info event, update season, giveaway, bantuan pembelian store, dan teman party dungeon langsung dari komunitas.</p>
-          </div>
-          <a href={server.discordUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-3 rounded-2xl bg-indigo-300 px-7 py-5 font-black text-black transition hover:scale-105"><Icon name="discord" className="h-6 w-6" /> Gabung Discord</a>
         </div>
       </div>
     </section>
@@ -459,10 +453,19 @@ function DiscordFooter() {
   return (
     <footer id="discord" className="border-t border-white/10 px-5 py-16 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-8 rounded-[2rem] border border-amber-200/15 bg-white/[0.04] p-8 backdrop-blur-2xl md:grid-cols-[1.2fr_.8fr]">
-        <div><Image src="/brand/voxensmp-rpg-emblem.svg" alt="Logo VoxenSMP footer" width={76} height={76} className="logo-glow" /><h2 className="mt-5 text-4xl font-black text-white">Gabung ke realm VoxenSMP.</h2><p className="mt-4 max-w-2xl leading-8 text-stone-400">Masuk lewat <span className="font-black text-amber-100">{server.ip}</span>, gabung Discord untuk pengumuman, dan mulai cerita RPG survival kamu.</p></div>
-        <div className="grid content-center gap-4"><StatusCard compact /><a href={server.discordUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-300 to-emerald-300 px-6 py-4 font-black text-black"><Icon name="discord" className="h-5 w-5" /> Gabung Discord</a><a href="#contact" className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/10 px-6 py-4 font-black text-white">Kontak Owner & Admin</a></div>
+        <div>
+          <Image src="/brand/voxensmp-rpg-emblem.svg" alt="Emblem VoxenSMP" width={76} height={76} className="drop-shadow-[0_0_24px_rgba(251,191,36,.45)]" />
+          <h2 className="mt-5 text-4xl font-black text-white">Gabung Komunitas VoxenSMP.</h2>
+          <p className="mt-4 max-w-2xl leading-8 text-stone-400">Connect ke <span className="font-black text-amber-100">{server.ip}</span>, masuk Discord untuk pengumuman, dan mulai cerita RPG survival kamu bersama player lain.</p>
+          <div className="mt-6 flex flex-wrap gap-3 text-sm font-bold text-stone-400">
+            <a href={discordUrl} target="_blank" rel="noreferrer" className="text-indigo-200 hover:text-white">Discord</a>
+            <a href={contacts.owner.url} target="_blank" rel="noreferrer" className="text-emerald-200 hover:text-white">Owner</a>
+            <a href={contacts.admin.url} target="_blank" rel="noreferrer" className="text-amber-200 hover:text-white">Admin</a>
+          </div>
+        </div>
+        <div className="grid content-center gap-4"><StatusCard compact /><a href={discordUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-300 via-amber-200 to-emerald-300 px-6 py-4 font-black text-black"><Icon name="discord" className="h-5 w-5" /> Gabung Discord</a></div>
       </div>
-      <div className="mx-auto mt-8 flex max-w-7xl flex-col gap-3 text-sm text-stone-600 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto mt-8 flex max-w-7xl flex-col gap-2 text-sm text-stone-600 md:flex-row md:items-center md:justify-between">
         <p>By Team VoxenSMP 2025 - 2026</p>
         <p>Kami tidak berafiliasi dengan Mojang atau Microsoft</p>
       </div>
@@ -479,10 +482,8 @@ export default function Home() {
       <Features />
       <WeaponShowcase />
       <Staff />
-      <LoginPanel />
-      <Store />
+      <Toko />
       <ContactSection />
-      <CommunityCta />
       <DiscordFooter />
     </main>
   );
