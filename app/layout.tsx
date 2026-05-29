@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'VoxenSMP — Legends RPG Survival',
-  description: 'Dark fantasy Minecraft RPG Survival server with legendary weapons, custom skills, boss dungeons, contracts, and competitive PvP.',
+  title: 'VOXEN SMP Store — Rank, Book, Skill',
+  description: 'Store Minecraft RPG Indonesia untuk rank, book, skill, balance, dan item premium VOXEN SMP.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="id">
       <body>{children}</body>
     </html>
   );
