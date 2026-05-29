@@ -51,11 +51,21 @@ export const weapons = [
   { name: 'Custom Skills', rarity: 'Ascended', icon: 'wand' as IconName, accent: 'violet', detail: 'Skill trees that transform your loadout and give your character a distinct survival identity.' },
 ];
 
-export const staff = [
-  { username: 'Notch', role: 'Owner', badge: 'Crimson Crown' },
-  { username: 'Jeb_', role: 'Admin', badge: 'Emerald Council' },
-  { username: 'Dinnerbone', role: 'Developer', badge: 'Arcane Forge' },
-  { username: 'Grumm', role: 'Moderator', badge: 'Obsidian Watch' },
+export const staff: { username: string | null; role: string; badge: string; quota?: string }[] = [
+  { username: 'Syanzx777', role: 'Owner', badge: 'Realm Founder' },
+  { username: 'ZenTheMonarch', role: 'CEO', badge: 'Monarch Council' },
+  { username: 'yinz', role: 'Supervisor', badge: 'Operations Lead' },
+  { username: 'ReiiAp', role: 'H.Developer', badge: 'Head Architect' },
+  { username: 'NabilEmon', role: 'Developer', badge: 'Systems Forge' },
+  { username: 'KunZzdev', role: 'Admin', badge: 'Admin Council', quota: '2/3' },
+  { username: 'ryw', role: 'Admin', badge: 'Admin Council', quota: '0/3' },
+  { username: 'Kyenzx', role: 'N.Admin', badge: 'Novice Admin', quota: '2/3' },
+  { username: 'aufar', role: 'N.Admin', badge: 'Novice Admin', quota: '0/3' },
+  { username: 'EvanCPM', role: 'N.Admin', badge: 'Novice Admin', quota: '0/3' },
+  { username: null, role: 'Moderator', badge: 'Kosong' },
+  { username: null, role: 'Staff', badge: 'Kosong' },
+  { username: 'RusdiSetengah', role: 'N.Staff', badge: 'Novice Staff', quota: '0/3' },
+  { username: null, role: 'Helper', badge: 'Kosong' },
 ];
 
 export const storeCategories = [

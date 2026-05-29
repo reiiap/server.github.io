@@ -268,14 +268,21 @@ function Staff() {
   return (
     <section id="staff" className="px-5 py-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionHeader eyebrow="Staff Team" title="The keepers of the realm." copy="Minecraft avatar rendering keeps the team presentation authentic, clean, and connected to the game world." />
+        <SectionHeader eyebrow="VoxenSMP Team" title="The official realm council." copy="Updated admin roster with Minecraft avatar rendering for every active team member and clean vacancy cards for open roles." />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {staff.map((member) => (
-            <GlassCard key={member.username} className="text-center">
-              <div className="mx-auto h-28 w-28 overflow-hidden rounded-[2rem] border border-amber-200/20 bg-black/40 p-2 shadow-2xl shadow-black/30"><img src={`https://mc-heads.net/avatar/${member.username}`} alt={`${member.username} Minecraft head`} className="h-full w-full rounded-[1.4rem] object-cover transition duration-500 group-hover:scale-110" loading="lazy" /></div>
-              <h3 className="mt-6 text-2xl font-black text-white">{member.username}</h3>
-              <p className="mt-2 inline-flex rounded-full border border-amber-200/20 bg-amber-200/10 px-3 py-1 text-xs font-black uppercase tracking-[0.22em] text-amber-100">{member.role}</p>
-              <p className="mt-4 text-sm font-semibold text-emerald-200">{member.badge}</p>
+            <GlassCard key={`${member.role}-${member.username ?? 'kosong'}`} className={`text-center ${member.username ? '' : 'opacity-80'}`}>
+              {member.username ? (
+                <div className="mx-auto h-28 w-28 overflow-hidden rounded-[2rem] border border-amber-200/20 bg-black/40 p-2 shadow-2xl shadow-black/30"><img src={`https://mc-heads.net/avatar/${member.username}`} alt={`${member.username} Minecraft head`} className="h-full w-full rounded-[1.4rem] object-cover transition duration-500 group-hover:scale-110" loading="lazy" /></div>
+              ) : (
+                <div className="mx-auto grid h-28 w-28 place-items-center rounded-[2rem] border border-red-300/20 bg-red-950/20 p-2 shadow-2xl shadow-black/30"><Icon name="staff" className="h-12 w-12 text-red-200/70" /></div>
+              )}
+              <h3 className="mt-6 text-2xl font-black text-white">{member.username ?? 'KOSONG'}</h3>
+              <div className="mt-2 flex flex-wrap justify-center gap-2">
+                <p className="inline-flex rounded-full border border-amber-200/20 bg-amber-200/10 px-3 py-1 text-xs font-black uppercase tracking-[0.22em] text-amber-100">{member.role}</p>
+                {member.quota && <p className="inline-flex rounded-full border border-emerald-200/20 bg-emerald-200/10 px-3 py-1 text-xs font-black uppercase tracking-[0.22em] text-emerald-100">{member.quota}</p>}
+              </div>
+              <p className={`mt-4 text-sm font-semibold ${member.username ? 'text-emerald-200' : 'text-red-200'}`}>{member.badge}</p>
             </GlassCard>
           ))}
         </div>
