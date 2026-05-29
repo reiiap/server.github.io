@@ -16,7 +16,7 @@ export async function GET() {
   try {
     const response = await fetch(ENDPOINT, { next: { revalidate: 60 } });
     if (!response.ok) {
-      return NextResponse.json({ ok: false, error: 'Unable to reach Minecraft status provider.' }, { status: 502 });
+      return NextResponse.json({ ok: false, error: 'Penyedia status Minecraft belum bisa dihubungi.' }, { status: 502 });
     }
 
     const data = (await response.json()) as McSrvStatus;
@@ -31,6 +31,6 @@ export async function GET() {
       checkedAt: new Date().toISOString(),
     });
   } catch {
-    return NextResponse.json({ ok: false, error: 'Server status temporarily unavailable.' }, { status: 503 });
+    return NextResponse.json({ ok: false, error: 'Status server sementara belum tersedia.' }, { status: 503 });
   }
 }
