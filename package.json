@@ -9,10 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "framer-motion": "latest",
+    "mysql2": "latest",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest",
-    "framer-motion": "latest"
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@types/node": "latest",

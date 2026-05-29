@@ -1,0 +1,18 @@
+<svg width="640" height="160" viewBox="0 0 640 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">VoxenSMP Compact Navbar Logo</title>
+  <desc id="desc">Compact transparent SVG logo for VoxenSMP navigation and launcher branding.</desc>
+  <defs>
+    <linearGradient id="g" x1="14" y1="12" x2="618" y2="144" gradientUnits="userSpaceOnUse"><stop stop-color="#67E8F9"/><stop offset=".55" stop-color="#A78BFA"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <filter id="glow" x="-15%" y="-40%" width="130%" height="180%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="5" result="b"/><feColorMatrix in="b" type="matrix" values="0 0 0 0 .16 0 0 0 0 .85 0 0 0 0 1 0 0 0 .5 0"/><feBlend in="SourceGraphic" mode="screen"/></filter>
+  </defs>
+  <path d="M80 12 140 38v45c0 38-25 65-60 76-35-11-60-38-60-76V38l60-26Z" fill="#070A1D" stroke="url(#g)" stroke-width="5"/>
+  <path d="M47 43 80 83l34-40 13 9-32 39 24 29-15 13-24-30-25 30-14-13 24-29-32-39 14-9Z" fill="#050816" stroke="#A5F3FC" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M80 28 104 64l-24 72-24-72 24-36Z" fill="url(#g)" stroke="#E0F2FE" stroke-width="4" stroke-linejoin="round"/>
+  <g filter="url(#glow)">
+    <path d="M180 42h37l24 64 24-64h36l-42 96h-36l-43-96Z" fill="url(#g)"/>
+    <path d="M309 90c0-31 22-52 55-52s55 21 55 52-22 52-55 52-55-21-55-52Zm35 0c0 14 8 23 20 23s20-9 20-23-8-23-20-23-20 9-20 23Z" fill="url(#g)"/>
+    <path d="M431 42h38l20 28 21-28h39l-39 47 42 49h-40l-23-30-23 30h-39l42-49-38-47Z" fill="url(#g)"/>
+    <path d="M558 42h62v27h-29v69h-33V42Z" fill="url(#g)"/>
+    <path d="M180 150h415" stroke="#22D3EE" stroke-width="5" stroke-linecap="round" opacity=".75"/>
+  </g>
+</svg>
