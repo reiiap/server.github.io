@@ -97,7 +97,7 @@ function LoadingScreen() {
             <motion.div animate={{ y: [0, -10, 0], filter: ['drop-shadow(0 0 18px rgba(251,191,36,.45))', 'drop-shadow(0 0 34px rgba(16,185,129,.55))', 'drop-shadow(0 0 18px rgba(251,191,36,.45))'] }} transition={{ duration: 2, repeat: Infinity }}>
               <Image src="/brand/voxensmp-rpg-emblem.svg" alt="VoxenSMP animated RPG logo" width={124} height={124} priority />
             </motion.div>
-            <p className="mt-7 text-xs font-black uppercase tracking-[0.48em] text-amber-200">Loading World...</p>
+            <p className="mt-7 text-xs font-black uppercase tracking-[0.48em] text-amber-200">Loading...</p>
             <div className="mt-5 h-1.5 w-72 overflow-hidden rounded-full bg-white/10">
               <motion.div className="h-full rounded-full bg-gradient-to-r from-red-700 via-amber-300 to-emerald-400" initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ duration: 2.1, ease: 'easeInOut' }} />
             </div>
@@ -194,7 +194,7 @@ function Hero() {
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_.95fr]">
         <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-          <motion.div variants={reveal} className="inline-flex items-center gap-3 rounded-full border border-amber-200/20 bg-amber-200/10 px-4 py-2 text-xs font-black uppercase tracking-[0.32em] text-amber-100"><Icon name="flame" className="h-4 w-4" /> Dark Fantasy SRPG</motion.div>
+          <motion.div variants={reveal} className="inline-flex items-center gap-3 rounded-full border border-amber-200/20 bg-amber-200/10 px-4 py-2 text-xs font-black uppercase tracking-[0.32em] text-amber-100"><Icon name="flame" className="h-4 w-4" /> Minecraft Server</motion.div>
           <motion.div variants={reveal} className="mt-7 flex items-center gap-4"><Image src="/brand/voxensmp-rpg-emblem.svg" alt="VoxenSMP Legends RPG logo" width={96} height={96} priority className="drop-shadow-[0_0_28px_rgba(251,191,36,.4)]" /><div className="h-px flex-1 bg-gradient-to-r from-amber-200/80 to-transparent" /></motion.div>
           <motion.h1 variants={reveal} className="fantasy-title mt-6 max-w-5xl text-5xl font-black leading-[.88] tracking-[-0.075em] text-white sm:text-6xl md:text-7xl xl:text-8xl">VOXENSMP <span className="block bg-gradient-to-r from-amber-100 via-red-200 to-emerald-200 bg-clip-text text-transparent">LEGENDS RPG SURVIVAL</span></motion.h1>
           <motion.p variants={reveal} className="mt-7 text-2xl font-semibold text-amber-100 md:text-3xl">Every weapon has a story.</motion.p>
