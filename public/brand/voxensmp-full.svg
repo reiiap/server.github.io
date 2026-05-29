@@ -1,0 +1,29 @@
+<svg width="1180" height="320" viewBox="0 0 1180 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">VoxenSMP Full Logo</title>
+  <desc id="desc">Full editable VoxenSMP vector logo with crystal sword emblem and premium esports typography.</desc>
+  <defs>
+    <linearGradient id="word" x1="311" y1="87" x2="1042" y2="250" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.45" stop-color="#67E8F9"/>
+      <stop offset="1" stop-color="#A78BFA"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="39" y1="20" x2="257" y2="298" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#67E8F9"/><stop offset="0.5" stop-color="#8B5CF6"/><stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <filter id="textGlow" x="0" y="0" width="1180" height="320" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="7" result="b"/><feColorMatrix in="b" type="matrix" values="0 0 0 0 0.14 0 0 0 0 0.82 0 0 0 0 1 0 0 0 .45 0"/><feBlend in="SourceGraphic" mode="screen"/></filter>
+  </defs>
+  <g transform="translate(28 14) scale(.57)">
+    <path d="M256 26 446 105v138c0 121-78 207-190 243C144 450 66 364 66 243V105L256 26Z" fill="#080A1F"/>
+    <path d="M256 45 426 116v126c0 108-68 184-170 218C154 426 86 350 86 242V116L256 45Z" fill="url(#edge)" opacity="0.2"/>
+    <path d="M256 45 426 116v126c0 108-68 184-170 218C154 426 86 350 86 242V116L256 45Z" stroke="url(#edge)" stroke-width="10"/>
+    <path d="M148 116 254 248l110-132 40 28-104 126 76 92-43 39-77-94-78 94-42-39 76-92L108 144l40-28Z" fill="#050816" stroke="#A5F3FC" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M256 82 330 194l-74 226-74-226 74-112Z" fill="url(#edge)" stroke="#E0F2FE" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M124 374h264l-33 47H157l-33-47Z" fill="#050816" stroke="#22D3EE" stroke-width="7" stroke-linejoin="round"/>
+  </g>
+  <g filter="url(#textGlow)">
+    <text x="334" y="151" fill="url(#word)" font-family="Arial Black, Impact, sans-serif" font-size="92" font-weight="900" letter-spacing="-4">VOXEN</text>
+    <text x="335" y="232" fill="#EDE9FE" font-family="Arial Black, Impact, sans-serif" font-size="72" font-weight="900" letter-spacing="16">SMP</text>
+    <path d="M331 256h498" stroke="#22D3EE" stroke-width="8" stroke-linecap="round" opacity=".8"/>
+    <path d="M331 66h692" stroke="#7C3AED" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+  </g>
+</svg>
