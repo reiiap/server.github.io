@@ -45,6 +45,8 @@ const reveal = {
   visible: { opacity: 1, y: 0 },
 };
 
+const minecraftUsernamePattern = /^[A-Za-z0-9_]{3,16}$/;
+
 function Icon({ name, className = '' }: { name: IconName; className?: string }) {
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d={iconPaths[name]} /></svg>;
 }
@@ -98,7 +100,7 @@ function LoadingScreen() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setVisible(false), 2400);
+    const timer = window.setTimeout(() => setVisible(false), 2200);
     return () => window.clearTimeout(timer);
   }, []);
 
@@ -116,7 +118,7 @@ function LoadingScreen() {
             </motion.div>
             <p className="mt-7 text-xs font-black uppercase tracking-[0.48em] text-amber-200">Memuat Realm...</p>
             <div className="mt-5 h-1.5 w-72 overflow-hidden rounded-full bg-white/10">
-              <motion.div className="h-full rounded-full bg-gradient-to-r from-red-700 via-amber-300 to-emerald-400" initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ duration: 2.1, ease: 'easeInOut' }} />
+              <motion.div className="h-full rounded-full bg-gradient-to-r from-red-700 via-amber-300 to-emerald-400" initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ duration: 1.9, ease: 'easeInOut' }} />
             </div>
           </motion.div>
         </motion.div>
@@ -144,7 +146,7 @@ function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 py-4">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-[1.5rem] border border-amber-200/15 bg-black/35 px-4 py-3 shadow-2xl shadow-black/40 backdrop-blur-2xl lg:px-6">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-[1.5rem] border border-amber-200/15 bg-black/40 px-4 py-3 shadow-2xl shadow-black/40 backdrop-blur-2xl lg:px-6">
         <a href="#home" className="group flex items-center gap-3">
           <Image src="/brand/voxensmp-rpg-emblem.svg" alt="Emblem RPG VoxenSMP" width={48} height={48} className="drop-shadow-[0_0_18px_rgba(251,191,36,.5)] transition duration-300 group-hover:rotate-6 group-hover:scale-110" priority />
           <span className="hidden text-lg font-black tracking-[0.22em] text-amber-100 sm:block">VOXEN<span className="text-emerald-300">SMP</span></span>
@@ -347,7 +349,7 @@ function Staff() {
           {staff.map((member) => (
             <GlassCard key={`${member.role}-${member.username ?? 'kosong'}`} className={`text-center ${member.username ? '' : 'opacity-80'}`}>
               {member.username ? (
-                <div className="mx-auto h-28 w-28 overflow-hidden rounded-[2rem] border border-amber-200/20 bg-black/40 p-2 shadow-2xl shadow-black/30"><img src={`https://mc-heads.net/avatar/${member.username}`} alt={`${member.username} Minecraft head`} className="h-full w-full rounded-[1.4rem] object-cover transition duration-500 group-hover:scale-110" loading="lazy" /></div>
+                <div className="mx-auto h-28 w-28 overflow-hidden rounded-[2rem] border border-amber-200/20 bg-black/40 p-2 shadow-2xl shadow-black/30"><img src={`https://mc-heads.net/avatar/${member.username}`} alt={`Avatar Minecraft ${member.username}`} className="h-full w-full rounded-[1.4rem] object-cover transition duration-500 group-hover:scale-110" loading="lazy" /></div>
               ) : (
                 <div className="mx-auto grid h-28 w-28 place-items-center rounded-[2rem] border border-red-300/20 bg-red-950/20 p-2 shadow-2xl shadow-black/30"><Icon name="staff" className="h-12 w-12 text-red-200/70" /></div>
               )}
@@ -404,7 +406,7 @@ function Toko() {
           <a href={discordUrl} target="_blank" rel="noreferrer" className="rounded-[2rem] border border-indigo-300/20 bg-indigo-400/10 p-5 font-black text-indigo-100 transition hover:-translate-y-1 hover:bg-indigo-400/15">Gabung Komunitas<span className="mt-2 block text-sm font-semibold text-stone-400">Masuk Discord untuk update realm.</span></a>
         </div>
         <div className="grid gap-6 lg:grid-cols-[18rem_1fr]">
-          <aside className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-3 backdrop-blur-2xl">
+          <aside className="h-fit rounded-[2rem] border border-white/10 bg-white/[0.04] p-3 backdrop-blur-2xl lg:sticky lg:top-28">
             {storeCategories.map((item) => (
               <button key={item.id} onClick={() => setActive(item.id)} className={`mb-2 flex w-full items-center gap-3 rounded-2xl px-4 py-4 text-left font-black transition ${active === item.id ? 'bg-amber-200 text-black shadow-[0_0_26px_rgba(251,191,36,.22)]' : 'text-stone-300 hover:bg-white/10 hover:text-white'}`}><Icon name={item.icon} className="h-5 w-5" />{item.label}</button>
             ))}
