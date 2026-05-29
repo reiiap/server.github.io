@@ -60,7 +60,7 @@ function useServerStatus() {
         const data = (await response.json()) as ServerStatus;
         if (active) setStatus(data);
       } catch {
-        if (active) setStatus({ ok: false, error: 'World signal unavailable.' });
+        if (active) setStatus({ ok: false, error: 'Server signal unavailable.' });
       } finally {
         if (active) setLoading(false);
       }
@@ -162,7 +162,7 @@ function StatusCard({ compact = false }: { compact?: boolean }) {
         <span className="relative flex h-3 w-3">{online && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />}<span className={`relative inline-flex h-3 w-3 rounded-full ${online ? 'bg-emerald-300' : 'bg-red-400'}`} /></span>
         <p className="text-xs font-black uppercase tracking-[0.3em] text-amber-200">Server Status</p>
       </div>
-      <h3 className="mt-5 text-3xl font-black text-white">{loading ? 'Opening Realm...' : online ? 'World Online' : 'World Offline'}</h3>
+      <h3 className="mt-5 text-3xl font-black text-white">{loading ? 'Opening Realm...' : online ? 'Server Online' : 'Server Offline'}</h3>
       <div className={`mt-5 grid gap-3 ${compact ? '' : 'sm:grid-cols-2'}`}>
         <div className="rounded-2xl border border-white/10 bg-black/25 p-4"><p className="text-xs uppercase tracking-[0.24em] text-stone-500">Players</p><p className="mt-2 text-2xl font-black text-emerald-200">{loading ? '—' : `${status.playersOnline ?? 0}${status.playersMax ? `/${status.playersMax}` : ''}`}</p></div>
         <div className="rounded-2xl border border-white/10 bg-black/25 p-4"><p className="text-xs uppercase tracking-[0.24em] text-stone-500">Version</p><p className="mt-2 text-2xl font-black text-amber-100">{status.version ?? server.version}</p></div>
