@@ -1,0 +1,30 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">VoxenSMP Crystal Sword Emblem</title>
+  <desc id="desc">Editable vector emblem combining a crystal, crossed sword geometry, and dark fantasy shield for VoxenSMP.</desc>
+  <defs>
+    <linearGradient id="crystal" x1="114" y1="82" x2="398" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#67E8F9"/>
+      <stop offset="0.45" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#1E1B4B"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="129" y1="98" x2="384" y2="422" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="0.4" stop-color="#94A3B8"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.25 0 0 0 0 0.9 0 0 0 0 1 0 0 0 0.65 0"/>
+      <feBlend in="SourceGraphic" mode="screen"/>
+    </filter>
+  </defs>
+  <path d="M256 26 446 105v138c0 121-78 207-190 243C144 450 66 364 66 243V105L256 26Z" fill="#080A1F"/>
+  <path d="M256 45 426 116v126c0 108-68 184-170 218C154 426 86 350 86 242V116L256 45Z" fill="url(#crystal)" opacity="0.2"/>
+  <path d="M256 45 426 116v126c0 108-68 184-170 218C154 426 86 350 86 242V116L256 45Z" stroke="url(#crystal)" stroke-width="10"/>
+  <path d="M148 116 254 248l110-132 40 28-104 126 76 92-43 39-77-94-78 94-42-39 76-92L108 144l40-28Z" fill="#050816" stroke="#A5F3FC" stroke-width="8" stroke-linejoin="round" filter="url(#glow)"/>
+  <path d="M256 82 330 194l-74 226-74-226 74-112Z" fill="url(#crystal)" stroke="#E0F2FE" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M256 82v338M182 194h148M214 194l42 226 42-226" stroke="#C4B5FD" stroke-width="5" opacity="0.8"/>
+  <path d="M206 151 256 82l50 69-50 43-50-43Z" fill="#ECFEFF" opacity="0.72"/>
+  <path d="M124 374h264l-33 47H157l-33-47Z" fill="#050816" stroke="#22D3EE" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M180 386h152" stroke="#A78BFA" stroke-width="8" stroke-linecap="round"/>
+</svg>
