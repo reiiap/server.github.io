@@ -1,18 +1,31 @@
-import mysql from 'mysql2/promise';
+type Row = Record<string, unknown>;
+type MysqlPool = {
+  execute<T = Row[]>(query: string, values?: Record<string, unknown>): Promise<[T, unknown]>;
+};
 
-let pool: mysql.Pool | undefined;
+let pool: MysqlPool | undefined;
 
-export function getPool() {
+async function importMysql() {
+  const dynamicImport = new Function('specifier', 'return import(specifier)') as (specifier: string) => Promise<{
+    default: { createPool(config: Record<string, unknown>): MysqlPool };
+  }>;
+  return dynamicImport('mysql2/promise');
+}
+
+export async function getPool() {
   if (!process.env.MYSQL_DATABASE_URL) {
     throw new Error('MYSQL_DATABASE_URL is not configured.');
   }
 
-  pool ??= mysql.createPool({
-    uri: process.env.MYSQL_DATABASE_URL,
-    connectionLimit: 4,
-    namedPlaceholders: true,
-    ssl: process.env.MYSQL_SSL === 'true' ? { rejectUnauthorized: true } : undefined,
-  });
+  if (!pool) {
+    const mysql = await importMysql();
+    pool = mysql.default.createPool({
+      uri: process.env.MYSQL_DATABASE_URL,
+      connectionLimit: 4,
+      namedPlaceholders: true,
+      ssl: process.env.MYSQL_SSL === 'true' ? { rejectUnauthorized: true } : undefined,
+    });
+  }
 
   return pool;
 }
@@ -24,7 +37,8 @@ export type LuckPermsPlayer = {
 };
 
 export async function findLuckPermsPlayer(username: string) {
-  const [rows] = await getPool().execute<mysql.RowDataPacket[]>(
+  const db = await getPool();
+  const [rows] = await db.execute<Row[]>(
     `SELECT uuid, username, primary_group
      FROM luckperms_players
      WHERE LOWER(username) = LOWER(:username)
@@ -36,7 +50,8 @@ export async function findLuckPermsPlayer(username: string) {
 }
 
 export async function findLuckPermsRank(uuid: string, fallback?: string | null) {
-  const [rows] = await getPool().execute<mysql.RowDataPacket[]>(
+  const db = await getPool();
+  const [rows] = await db.execute<Row[]>(
     `SELECT permission
      FROM luckperms_user_permissions
      WHERE uuid = :uuid
@@ -52,7 +67,8 @@ export async function findLuckPermsRank(uuid: string, fallback?: string | null) 
 }
 
 export async function consumeLoginCode(username: string, code: string) {
-  const [rows] = await getPool().execute<mysql.RowDataPacket[]>(
+  const db = await getPool();
+  const [rows] = await db.execute<Row[]>(
     `SELECT id
      FROM voxensmp_login_tokens
      WHERE LOWER(username) = LOWER(:username)
@@ -66,7 +82,7 @@ export async function consumeLoginCode(username: string, code: string) {
   const id = rows[0]?.id as number | undefined;
   if (!id) return false;
 
-  await getPool().execute(
+  await db.execute(
     `UPDATE voxensmp_login_tokens SET used_at = NOW() WHERE id = :id`,
     { id },
   );
@@ -80,7 +96,8 @@ export async function findOptionalPlayerStats(uuid: string) {
     return { balance: null, playtime: null };
   }
 
-  const [rows] = await getPool().execute<mysql.RowDataPacket[]>(
+  const db = await getPool();
+  const [rows] = await db.execute<Row[]>(
     `SELECT balance, playtime FROM ${statsTable} WHERE uuid = :uuid LIMIT 1`,
     { uuid },
   );
