@@ -80,16 +80,16 @@ export const staff: { username: string | null; role: string; badge: string; quot
   { username: 'ZenTheMonarch', role: 'CEO', badge: 'Dewan Monarch' },
   { username: 'yinz', role: 'Supervisor', badge: 'Lead Operasional' },
   { username: 'ReiiAp', role: 'H.Developer', badge: 'Arsitek Utama' },
-  { username: 'NabilEmon', role: 'Developer', badge: 'Forge Sistem' },
-  { username: 'KunZzdev', role: 'Admin', badge: 'Dewan Admin' },
-  { username: 'ryw', role: 'Admin', badge: 'Dewan Admin' },
+  { username: 'Zings09', role: 'H-Admin', badge: 'Pengurus Server' },
+  { username: null, role: 'Admin', badge: 'Kosong' },
   { username: 'Kyenzx', role: 'N.Admin', badge: 'Novice Admin' },
   { username: 'aufar', role: 'N.Admin', badge: 'Novice Admin' },
   { username: 'EvanCPM', role: 'N.Admin', badge: 'Novice Admin' },
   { username: null, role: 'Moderator', badge: 'Kosong' },
   { username: null, role: 'Staf', badge: 'Kosong' },
-  { username: 'RusdiSetengah', role: 'N.Staf', badge: 'Novice Staf' },
+  { username: null, role: 'N.Staf', badge: 'Kosong' },
   { username: null, role: 'Helper', badge: 'Kosong' },
+  { username: null, role: 'N-Helper', badge: 'Kosong' },
 ];
 
 export const storeCategories: { id: string; label: string; icon: IconName; info?: string; items: TokoProduct[] }[] = [
