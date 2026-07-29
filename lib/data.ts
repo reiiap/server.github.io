@@ -84,7 +84,6 @@ export const staff: { username: string | null; role: string; badge: string; quot
   { username: null, role: 'Admin', badge: 'Kosong' },
   { username: 'Kyenzx', role: 'N.Admin', badge: 'Novice Admin' },
   { username: 'aufar', role: 'N.Admin', badge: 'Novice Admin' },
-  { username: 'EvanCPM', role: 'N.Admin', badge: 'Novice Admin' },
   { username: null, role: 'Moderator', badge: 'Kosong' },
   { username: null, role: 'Staf', badge: 'Kosong' },
   { username: null, role: 'N.Staf', badge: 'Kosong' },
