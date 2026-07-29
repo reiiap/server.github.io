@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'VoxenSMP — Server RPG Indonesia',
+  title: 'VoxenSMP - Server RPG Indonesia No 1',
   description:
     'Server Minecraft RPG VoxenSMP untuk beli rank, book, skill, balance, item, dan komunitas survival premium.',
 
