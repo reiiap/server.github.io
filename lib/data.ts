@@ -88,8 +88,9 @@ export const staff: { username: string | null; role: string; badge: string; quot
   { username: null, role: 'Moderator', badge: 'Kosong' },
   { username: null, role: 'Staf', badge: 'Kosong' },
   { username: null, role: 'N.Staf', badge: 'Kosong' },
-  { username: null, role: 'Helper', badge: 'Kosong' },
-  { username: null, role: 'N-Helper', badge: 'Kosong' },
+  { username: 'Kynoxsa', role: 'Helper', badge: 'Pendukung Utama Server' },
+  { username: 'karamm', role: 'N-Helper', badge: 'Pendukung Server' },
+  { username: 'RennKyouu', role: 'N-Helper', badge: 'Pendukung Server' },
 ];
 
 export const storeCategories: { id: string; label: string; icon: IconName; info?: string; items: TokoProduct[] }[] = [
